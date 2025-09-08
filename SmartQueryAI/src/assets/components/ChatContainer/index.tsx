@@ -1,4 +1,5 @@
 import styles from './styles.module.css';
+
 type ChatContainerProps = {
     children: React.ReactNode;
 };

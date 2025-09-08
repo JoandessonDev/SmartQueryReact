@@ -4,6 +4,7 @@ type ChatMessageProps = {
     time: string;
     sender: "user" | "bot";
 };
+
 export function ChatMessage({text, time, sender} : ChatMessageProps){
     return(
         <>
