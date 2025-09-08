@@ -1,0 +1,22 @@
+
+:root {
+  --gradient-bg: linear-gradient(135deg, #6a0dad, #000000);
+
+  --color-primary: #6a0dad; 
+  --color-primary-light: #8A2CE2;
+  --color-primary-dark: #4b0082; 
+  --color-dark-gray: #1a1a1a;
+  --color-light-gray: #f5f5f5;
+
+  --text-primary: black;
+  --text-secondary: #555555;
+  --text-accent: var(--color-primary-light);
+
+  --border-radius: 12px;
+  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+
+  --font-family: 'Inter', sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+}

@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;      
+    width: 95%;            
+    margin: 2rem auto;     
+    background-color: white;
+    border-radius: var(--border-radius, 12px);
+    box-shadow: var(--box-shadow, 0 4px 15px rgba(0,0,0,0.5));
+    overflow: hidden;
+    min-height: 90vh;
+    justify-content: space-between;
+}

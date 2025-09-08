@@ -1,0 +1,14 @@
+@import './variables.css';
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+  background: var(--gradient-bg);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  min-height: 100vh;
+}

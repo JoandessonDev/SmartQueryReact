@@ -1,0 +1,41 @@
+.message {
+  display: flex;
+}
+.messageBot {
+  justify-content: flex-start;
+}
+.messageUser {
+  justify-content: flex-end;
+}
+
+.chatMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1rem;
+  max-width: 20rem;
+}
+
+.chatBotMessage {
+  background-color: #cccccc4b;
+  border-radius: 1rem 1rem 1rem 0rem;
+  & p {
+    color: #2e2d2d;
+  }
+
+  & .time {
+    color: #4d4c4c;
+  }
+}
+
+.chatUserMessage {
+  background-color: var(--color-primary-light);
+  border-radius: 1rem 1rem 0 1rem;
+  & p {
+    color: white;
+  }
+
+  & .time {
+    color: var(--color-light-gray);
+  }
+}
