@@ -13,7 +13,7 @@
   flex-direction: column;
   gap: 0.8rem;
   padding: 1rem;
-  max-width: 20rem;
+
 }
 
 .chatBotMessage {
