@@ -5,8 +5,10 @@ import { ChatMessage } from "./assets/components/ChatMessage";
 import { Container } from "./assets/components/Container";
 import { Header } from "./assets/components/Header";
 import { useState } from "react";
-import { sendMessage, SendResponse } from "./services/api";
-import { Message } from "./types/messages";
+import { sendMessage, type SendResponse, type QuestionRequestDTO } from "./services/api";
+import { type Message } from "./types/messages";
+import { ModePrompt } from "./types/ModePrompt";
+
 
 function nowTime(): string{
   const d = new Date();
@@ -49,7 +51,12 @@ function App() {
     setLoading(true);
 
     try{
-      const resp: SendResponse = await sendMessage(text);
+      const request: QuestionRequestDTO = {
+        modePrompt: ModePrompt.Sql,
+        messageUser: text
+      };
+
+      const resp: SendResponse = await sendMessage(request);
 
       if(resp.message){
         const botMessage: Message = {
@@ -80,6 +87,135 @@ function App() {
       setLoading(false);
     }
   }
+
+//   // coloque isso no topo do arquivo, abaixo dos imports, se quiser
+// function isNonEmptyString(v: any): v is string {
+//   return typeof v === "string" && v.trim().length > 0;
+// }
+
+// function normalizeApiResponse(data: any): SendResponse {
+//   // sem dado
+//   if (data === null || data === undefined) return {};
+
+//   // já é um SendResponse "normal"
+//   if (typeof data === "object" && ("rows" in data || "message" in data)) {
+//     // garantir que rows seja array se existir
+//     const rows = Array.isArray((data as any).rows) ? (data as any).rows : undefined;
+//     const message = isNonEmptyString((data as any).message) ? (data as any).message : undefined;
+//     return { rows, message };
+//   }
+
+//   // se veio um array direto (ex: backend retornou array de linhas)
+//   if (Array.isArray(data)) {
+//     return { rows: data };
+//   }
+
+//   // formatos comuns: { data: [...] } ou { Data: [...] } ou { result: [...] }
+//   if (typeof data === "object") {
+//     const keys = Object.keys(data);
+//     for (const k of keys) {
+//       const v = (data as any)[k];
+//       if (Array.isArray(v)) {
+//         return { rows: v, message: isNonEmptyString((data as any).message) ? (data as any).message : undefined };
+//       }
+//     }
+//   }
+
+//   // se veio string, pode ser JSON string com o payload, tentar parse
+//   if (typeof data === "string") {
+//     try {
+//       const parsed = JSON.parse(data);
+//       return normalizeApiResponse(parsed);
+//     } catch (e) {
+//       // string normal: trata como mensagem do bot
+//       return { message: data };
+//     }
+//   }
+
+//   // fallback: se for objeto com propriedades simples, transformar em "linha única"
+//   if (typeof data === "object") {
+//     try {
+//       const row = data;
+//       return { rows: [row] };
+//     } catch {
+//       return {};
+//     }
+//   }
+
+//   return {};
+// }
+
+// async function handleSend(text: string) {
+//   const userMessage: Message = {
+//     id: String(Date.now()),
+//     text,
+//     time: nowTime(),
+//     sender: "user"
+//   };
+
+//   // adiciona a mensagem do usuário
+//   setMessages(prev => [...prev, userMessage]);
+//   setLoading(true);
+
+//   try {
+//     const request: QuestionRequestDTO = {
+//       modePrompt: ModePrompt.Sql,
+//       messageUser: text
+//     };
+
+//     // sendMessage pode retornar formatos variados; aqui tratamos como any
+//     const rawResp: any = await sendMessage(request as any);
+//     const resp = normalizeApiResponse(rawResp);
+
+//     // prepare mensagens a adicionar em lote (mantém ordem)
+//     const newMessages: Message[] = [];
+
+//     // se existir message textual não vazia, adiciona como mensagem do bot
+//     if (isNonEmptyString(resp.message)) {
+//       newMessages.push({
+//         id: String(Date.now() + 1),
+//         text: resp.message!,
+//         time: nowTime(),
+//         sender: "bot"
+//       });
+//     }
+
+//     // se houver rows válidas e não vazias, adiciona como tabela (mantemos rows reais no objeto)
+//     if (Array.isArray(resp.rows) && resp.rows.length > 0) {
+//       const pretty = rowsToPrettyText(resp.rows);
+//       newMessages.push({
+//         id: String(Date.now() + 2),
+//         text: pretty,
+//         time: nowTime(),
+//         sender: "bot",
+//         rows: resp.rows
+//       });
+//     }
+
+//     // se não tiver nem message nem rows -> mensagem "Nenhum dado encontrado"
+//     if (!isNonEmptyString(resp.message) && (!Array.isArray(resp.rows) || resp.rows.length === 0)) {
+//       newMessages.push({
+//         id: String(Date.now() + 3),
+//         text: "Nenhum dado encontrado",
+//         time: nowTime(),
+//         sender: "bot"
+//       });
+//     }
+
+//     // adiciona tudo em um único set (evita problemas de ordem)
+//     setMessages(prev => [...prev, ...newMessages]);
+//   } catch (err: any) {
+//     const errorMsg: Message = {
+//       id: String(Date.now() + 4),
+//       text: `Erro: ${err?.message ?? err}`,
+//       time: nowTime(),
+//       sender: "bot"
+//     };
+//     setMessages(prev => [...prev, errorMsg]);
+//   } finally {
+//     setLoading(false);
+//   }
+// }
 
  return (
     <Container>
